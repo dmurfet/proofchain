@@ -1,0 +1,529 @@
+\documentclass[english,letter paper,12pt,reqno]{article}
+\usepackage{etex} % to fix "no room for new dimen" error. Voodoo.
+\usepackage{array}
+\usepackage{varwidth}
+\usepackage{bussproofs}
+\usepackage{epigraph}
+\usepackage{stmaryrd}
+\usepackage{mathdots}
+\usepackage{amsmath, amscd, amssymb, mathrsfs, accents, amsfonts,amsthm}
+\usepackage[all]{xy}
+\usepackage{mathtools} % for bra-ket
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\def\nicedashedcolourscheme{\shadedraw[top color=blue!22, bottom color=blue!22, draw=gray, dashed]}
+\def\nicecolourscheme{\shadedraw[top color=blue!22, bottom color=blue!22, draw=white]}
+\def\nicepalecolourscheme{\shadedraw[top color=blue!12, bottom color=blue!12, draw=white]}
+\def\nicenocolourscheme{\shadedraw[top color=gray!2, bottom color=gray!25, draw=white]}
+\def\nicereallynocolourscheme{\shadedraw[top color=white!2, bottom color=white!25, draw=white]}
+\definecolor{Myblue}{rgb}{0,0,0.6}
+\usepackage[a4paper,colorlinks,citecolor=Myblue,linkcolor=Myblue,urlcolor=Myblue,pdfpagemode=None]{hyperref}
+
+\AtEndDocument{\bigskip{\footnotesize%
+  \textsc{Department of Mathematics, University of Melbourne} \par  
+  \textit{E-mail address}: \texttt{d.murfet@unimelb.edu.au} \par
+}}
+
+% Labels in tabular
+\newcommand{\tagarray}{\mbox{}\refstepcounter{equation}$(\theequation)$}
+
+\newenvironment{mathprooftree}
+  {\varwidth{.9\textwidth}\centering\leavevmode}
+  {\DisplayProof\endvarwidth}
+  
+% Bra-ket stuff
+\DeclarePairedDelimiter\bra{\langle}{\rvert}
+\DeclarePairedDelimiter\ket{\lvert}{\rangle}
+\DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}{#1 \delimsize\vert #2}
+\DeclarePairedDelimiterX\inner[2]{\langle}{\rangle}{#1,#2}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\set{\lbrace}{\rbrace}
+
+%\begin{align*}
+%\bra{a}       &= \bra*{\frac{a}{1}}\    \ket{a}       &= \ket*{\frac{a}{1}}\    \braket{a}{b} &= \braket*{\frac{a}{1}}{\frac{b}{1}}\    %\inner{a}{b}  &= \inner*{\frac{a}{1}}{\frac{b}{1}}\    \abs{a}       &= \abs*{\frac{a}{1}}\    \norm{a}      &= \norm*{\frac{a}%{1}}\    \set{a,b}     &= \set*{\frac{a}{1},\frac{b}{1}}
+%\end{align*}
+
+% TikZ stuff
+\def\drawbang{\draw[color=teal!50, line width=2pt]}
+\def\drawprom{\draw[color=gray, line width=3pt]}
+\def\bluenode{\node[circle,draw=blue!50,fill=blue!20]}
+\def\mapnode{\node[circle,draw=black,fill=black,inner sep=0.5mm]}
+\def\whitenode{\node[circle,draw=blue!50,fill=blue!5]}
+\def\dernode{\node[circle,draw=black,fill=white]}
+\definecolor{Myblue}{rgb}{0,0,0.6}
+\usepackage[a4paper,colorlinks,citecolor=Myblue,linkcolor=Myblue,urlcolor=Myblue,pdfpagemode=None]{hyperref}
+
+\SelectTips{cm}{}
+
+\setlength{\evensidemargin}{0.1in}
+\setlength{\oddsidemargin}{0.1in}
+\setlength{\textwidth}{6.3in}
+\setlength{\topmargin}{0.0in}
+\setlength{\textheight}{8.5in}
+\setlength{\headheight}{0in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheoremstyle{example}{\topsep}{\topsep}
+	{}
+	{}
+	{\bfseries}
+	{.}
+	{2pt}
+	{\thmname{#1}\thmnumber{ #2}\thmnote{ #3}}
+	
+	\theoremstyle{example}
+	\newtheorem{definition}[theorem]{Definition}
+	\newtheorem{example}[theorem]{Example}
+	\newtheorem{remark}[theorem]{Remark}
+	\newtheorem{problem}[theorem]{Open problem}
+	\newtheorem{question}[theorem]{Question}
+
+%\numberwithin{equation}{section}
+
+% Operators
+\def\eval{\operatorname{ev}}
+\def\sh{\operatorname{Sh}}
+\def\res{\operatorname{Res}}
+\def\Coker{\operatorname{Coker}}
+\def\Ker{\operatorname{Ker}}
+\def\im{\operatorname{Im}}
+\def\can{\operatorname{can}}
+\def\K{\mathbf{K}}
+\def\D{\mathbf{D}}
+\def\N{\mathbf{N}}
+\def\LG{\mathcal{LG}}
+\def\Ab{\operatorname{Ab}}
+\def\Hom{\operatorname{Hom}}
+\def\modd{\operatorname{mod}}
+\def\Modd{\operatorname{Mod}}
+\def\vacu{\ket{\emptyset}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\tot}{Tot}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\str}{str}
+\DeclareMathOperator{\hmf}{hmf}
+\DeclareMathOperator{\HMF}{HMF}
+\DeclareMathOperator{\hf}{HF}
+\DeclareMathOperator{\At}{At}
+\DeclareMathOperator{\Cat}{Cat}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\MSpec}{MSpec}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\LC}{LC}
+\DeclareMathOperator{\ILL}{ILL}
+\DeclareMathOperator{\Mod}{Mod}
+\def\inta{\bold{int}}
+\def\comp{\underline{\textup{comp}}}
+\def\contract{\;\lrcorner\;}
+
+% SCprooftree environment
+\newenvironment{scprooftree}[1]
+{\gdef\scalefactor{#1}\begin{center}\proofSkipAmount \leavevmode}
+{\scalebox{\scalefactor}{\DisplayProof}\proofSkipAmount \end{center} }
+  
+\begin{document}
+
+% Bussproof things
+\def\ScoreOverhang{1pt}
+
+% Commands
+\def\Res{\res\!}
+\newcommand{\ud}[1]{\operatorname{d}\!{#1}}
+\newcommand{\Ress}[1]{\res_{#1}\!}
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\lto}{\longrightarrow}
+\newcommand{\xlto}[1]{\stackrel{#1}\lto}
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\md}[1]{\mathscr{#1}}
+\newcommand{\church}[1]{\underline{#1}}
+\newcommand{\prf}[1]{\underline{#1}}
+\newcommand{\den}[1]{\llbracket #1 \rrbracket}
+\def\l{\,|\,}
+\def\sgn{\textup{sgn}}
+\def\cont{\operatorname{cont}}
+
+\title{Report on Trustworthy Proofs and Programs}
+\author{Daniel Murfet}
+
+\maketitle
+
+\begin{abstract} This report addresses technical aspects of the problem of \emph{trust} in mathematics and software engineering, that is, in the human cultural activities of constructing proofs and programs. We survey the use of classifying topoi to organise mathematical knowledge and software, how that organisation could potentially be reflected in computational tools like proof assistants, and how the widespread use of such tools could be incentivised by conjecture markets.
+\end{abstract}
+
+\tableofcontents
+
+\setlength{\epigraphwidth}{0.6\textwidth}
+\epigraph{Civilisation advances by extending the number of important operations which we can perform without thinking about them.}{Alfred North Whitehead}
+
+
+The economist Kenneth Arrow has argued that trust serves as a catalyst of economic activity, increasing efficiency and saving on transaction costs \cite[p.23]{arrow}, \cite{fukuyama} and that trust is therefore a primary source of economic wealth:
+
+\begin{quote}
+Now trust has a very important pragmatic value, if nothing else. Trust is an important lubricant of a social system. It is extremely efficient; it saves a lot of trouble to have a fair degree of reliance on other people's word. Unfortunately this is not a commodity which can be bought very easily. If you have to buy it, you already have some doubts about what you've bought. Trust and similar values, loyalty or truth-telling, are examples of what the economist would call ``externalities.'' They are goods, they are commodities; they have real, practical, economic value; they increase the efficiency of the system, enable you to produce more goods or more of whatever values you hold in high esteem. But they are not commodities for which trade on the open market is technically possible or even meaningful.
+\end{quote}
+
+Trust is indispensable in professional mathematics, where the content of our books and papers are typically informal proofs, with an implicit assertion that the well-educated and sufficiently motivated reader could transform the informal argument into a formal proof. Today this transformation is rarely performed in practice, because it is time consuming, not economically incentivised, and perhaps not very interesting. The cultural practice of mathematics depends, to various degrees, on networks of trust.\footnote{Most mathematicians have verified parts of mathematics, but the coverage becomes less complete as one moves towards the frontiers of their research. A relevant joke among algebraic geometers is ``we don't need formal methods or proof assistants, because we have Ofer Gabber.''} The edifice of modern mathematics attests to the fact that this cultural practice has been enormously successful; however, these trust networks do sometimes break down, with recent examples in number theory \cite{abc} and symplectic geometry \cite{symplectic}. Such breakdowns cause transaction costs to increase and efficiency to decrease: individuals must expend additional effort to determine whether or not to rely on the claims of a given paper, and may even switch fields at high personal cost. Some have argued that the increasing complexity of mathematics, and the specialisation of its practitioners, is outstripping the capacity of our current culture \cite{voevodsky}.
+
+There same problem afflicts software engineering, which is of greater concern to broader society because of our increasing economic and military dependence on software systems. The purpose of software engineering is to construct programs which achieve a given goal (e.g. transfer money between banks) and do no more than that (e.g. the program does not make payments to corrupt bank managers). Today these goals or \emph{specifications} are rarely written down in formal language, and it is even more rare that a program is proven to fulfill the specification. While software engineering has produced enormous economic value, many have argued that the increasing complexity of software systems, and our dependence as societies on these systems for our wealth and security, requires that we must transition to a new culture with a higher standard of specification and proof \cite{manifesto}.
+\\
+
+\textbf{Problem statement.} Imagine a future where the communities of professional mathematicians and software engineers have successfully made the transition to a new culture of this kind. What does the path from here to there look like? It seems to involve
+\begin{itemize}
+\item[A.] Developing \emph{technical tools} which enable higher levels of trust,
+\item[B.] Embedding those technical tools into a \emph{new culture}, and
+\item[C.] Transitioning a complex system of cooperating agents to this new culture.
+\end{itemize}
+For example, computer proof assistants are technical tools that can assist mathematicians in formalising their proofs, and software engineers in writing specifications and verifying that their programs fulfill the specification (Problem A). While there are passionate communities within mathematics and software engineering that use, and indeed evangelise, the use of such tools (Problem B) these subcultures are far from dominant and it is not clear that enculturation will succeed at current rates (Problem C). This document is the report on a scoping study\footnote{The title of the scopying study is ``Trustworthy Software Systems - Formal Analysis Tools Development'' involving the University of Melbourne, Data61 and DSTG.} which aimed to identify promising new approaches to various circumscribed parts of these problems.
+\vspace{0.2cm}
+
+\textbf{Aims.} The goal of the study was to lay some of the groundwork for the development of a \emph{formal mathematical modelling environment capable of addressing large scale bodies of mathematical, engineering and systems knowledge}. The component of the study addressed by this report focussed on the analysis of areas of mathematics and logic which could be used as the basis for a next generation of formal methods tool, supporting modularisation, composition and re-use through algebraic and categorical techniques. The main purpose of these features is to encourage wider adoption of formal methods. One of the concrete goals was to scope the application of type theory to the development of a \emph{higher-order monadic computation model} to address the defects in current proof assistants.
+\vspace{0.2cm}
+
+\textbf{Outline.} The activities of the group of mathematicians at the University of Melbourne was organised around a series of seminars \cite{risingseminar} in which the PI Daniel Murfet and other faculty and masters students, including William Troiani and James Clift, worked through references on categorical logic and topos theory including \cite{lambekscott,topos,johnstone}. Lecture notes are posted online, and videos of the talks are publicly available on YouTube. A brief summary of each seminar, and the conclusions of the scoping study, are collected in Section \ref{section:section:organisation}. 
+
+While these investigations are reasonably abstract, they are aimed at solving the concrete social problems elaborated above. To buttress this claim we include in Section \ref{section:proofchain} a speculative discussion of potential solutions to Problems B,C organised around computational networks that we call \emph{proofchains} which support \emph{conjecture markets}. We hope with this proposal to encourage the development of networks which can help to accelerate the spread of formal methods by creating new economic incentives.
+
+\section{Organising mathematical knowledge using topoi}\label{section:section:organisation}
+
+A primary means of organising mathematical knowledge is the notion of a \emph{theory}. Each theory provides a language and a set of axioms satisfied by the objects described by that theory: examples include abelian groups, rings, and metric spaces. A concrete instance of this structure is called a \emph{model} of the theory. The organisation of software follows, to some extent, the same pattern: a directory structuring a project in the programming language $C$ contains $.h$ files (specifications, which are similar to theories) and $.c$ files (models of the theory). Since we cannot claim any deep understanding of the problems specific to software engineering we focus here on the task of organising mathematical knowledge, but it appears that the organisation of large-scale software is analogous: indeed specification languages like Z \cite{potter} make use of first-order theories and view implementations as models. 
+
+The project goals of enabling \emph{modularisation, composition and re-use}, which have resonance with ideas in category theory, suggest that \emph{theories and theory morphisms} should be central organising principles in the development of a next generation formal methods tool of the desired kind. By a \emph{theory} we will mean a first-order theory \cite[\S X.1]{topos} unless specified otherwise. The first problem is that it is not clear what a \emph{transformation} or \emph{morphism} of theories should be \cite[Lecture 1]{risingseminar}. Whatever it is, a morphism of theories
+\[
+\phi: T \lto T'
+\]
+should consist of an interpretation of the sorts, function symbols, relations and constants of $T$ in the ``universe of mathematical discourse'' provided by $T'$. From a practical point of view, such a morphism $\phi$ would tell a proof assistant \emph{how} to import the symbols of $T$ in an environment already populated by the symbols of $T'$. 
+
+The most straightforward approach would be to define a morphism $\phi$ to be a mapping of the sorts $X,Y,Z,\ldots$ of $T$ to sorts $\phi(X), \phi(Y), \phi(Z),\ldots$ of $T'$, and a mapping of the remaining symbols of $T$ to symbols of $T'$ of the same kind, compatible with the typings. However this notion is too restricted to be useful, because the sorts of a first-order theory are not necessarily closed under type formation operations. It is more natural to allow $\phi(X)$ to be constructed from the sorts of $T'$ using the allowed operations, and to similarly relax the interpretation of the other kinds of symbols in the theory $T$.
+
+This suggests a refined guess, namely that $\phi$ should be the data of a model of $T$ in the category referred to in \cite{topos} as the \emph{syntactic category} $\cat{S}(T')$ where the objects and morphisms are equivalence classes of formulas in the language of $T'$ (one thinks of a formula $\psi$ with free variables $x_1,\ldots,x_n$ as a set comprehension $\{ (x_1,\ldots,x_n) \l \psi \} \subseteq X_1 \times \cdots \times X_n$). However this notion still has at least two problems:
+\begin{itemize}
+\item $\cat{S}(T')$ is not a topos, so it is not necessarily clear what we mean by a \emph{model} of $T$, for example, how do we determine the validity of an axiom of the theory $T$ for our model when we don't know how to talk about quantifiers?
+\item $\cat{S}(T')$ lacks arbitrary colimits, so that we are restricted to interpreting a sort $X$ as a \emph{finite} construction from the sorts and other data of $T'$.
+\end{itemize}
+From the computational point of view the first problem is the more serious one. In any case, provided the theory $T'$ is \emph{geometric} (see Section \ref{section:geometric} for the definition) there is a natural way to resolve both of these problems by passing from $\cat{S}(T')$ to a larger category $\cat{B}(T')$ which is both a topos and has arbitrary colimits: this is the \emph{classifying topos} of the geometric theory $T'$.\footnote{Technically the classifying topos is defined as a category of sheaves on a site $(\cat{S}(T'), J)$ where $J$ is a Grothendieck topology. An introduction to sheaves and Grothendieck topologies is given in Lectures 6,7,10,11 of the seminar.}
+
+So a reasonable notion of a morphism $\phi: T \lto T'$ of theories is the data of a model
+\[
+M \in \operatorname{Mod}(T, \cat{B}(T'))\,.
+\]
+The correctness of this notion is reinforced by the fact that, provided $T,T'$ are geometric theories, the universal property of the classifying topos gives an equivalence
+\[
+\operatorname{Mod}(T, \cat{B}(T')) \cong \underline{Hom}( \cat{B}(T'), \cat{B}(T) )
+\]
+where the right hand side is a category whose objects are the \emph{geometric morphisms} of topoi $\cat{B}(T) \lto \cat{B}(T')$. A geometric morphism of topoi $f: \cat{E} \lto \cat{F}$ is an adjoint pair $(f^*, f_*)$ where the left adjoint part $f^*: \cat{F} \lto \cat{E}$ preserves finite limits.\footnote{These are connected to geometry by the following basic fact: any continuous function between topological spaces $f: X \lto Y$ gives rise to a geometric morphism $(f^*, f_*): \operatorname{Sh}(X) \lto \operatorname{Sh}(Y)$ of sheaf topoi, and provided $Y$ is Hausdorff every geometric morphism arises in this way \cite[\S VII.1]{topos}.} So at least for geometric theories, there appears to be a satisfactory answer to our original question: the correction notion of a morphism of theories $T \lto T'$ is a geometric morphism of topoi $\cat{B}(T') \lto \cat{B}(T)$ or what is the same, a model of $T$ in $\cat{B}(T')$. 
+\vspace{0.2cm}
+
+Thus the theory of classifying topoi and geometric morphisms seems to point towards an attractive categorical way of organising mathematical knowledge, and potentially also large-scale software systems. However, several questions need to be answered before this solution can be employed in practice:
+\begin{itemize}
+\item \textbf{Q1.} How serious is the restriction to geometric theories?
+\item \textbf{Q2.} Can you compute what a geometric morphism $f^*$ actually does? More precisely, can it be implemented on a computer, say in a proof assistant?
+\item \textbf{Q3.} Geometric morphisms are adjoint pairs, and adjunctions are closely related to monads. The influence of monads on computer programming in recent decades has been profound \cite{benton} following Moggi's fundamental contribution \cite{moggi}. What is the relation of this proposal to Moggi's monadic languages?
+\end{itemize}
+The first question was not addressed directly in the seminars, but we argue in Section \ref{section:geometric} that the answer is \emph{Maybe It's Not So Bad}. The second two points were addressed by talks in the seminar. In short, the answer to Q2 seems to be \emph{Yes} although further work is required to flesh this out in detail, see \cite[Lectures 12,15]{risingseminar}. The answer to Q3 is that the information in the relevant adjunctions \emph{cannot} be reduced to monads, so what we are proposing is a genuine extension of the old ideas of Moggi \cite[Lecture 15]{risingseminar}. 
+
+The rest of this section is structured as follows: we first give a summary of the seminar and then turn to how it addresses the two points above, before making our conclusions.
+
+\subsection{Summary of seminar talks}
+
+\begin{itemize}
+\item \textbf{Lecture 1: Daniel Murfet, ``An invitation to topos theory''.} Introduces the general ideas of categorical logic and topos theory as a means of organising mathematical knowledge, following Lawvere. Briefly defines topoi, gives some examples, introduces the universal property of a classifying topos.
+
+\item \textbf{Lecture 2: Daniel Murfet, ``The Curry-Howard correspondence''.} Introduces some of the general ideas surrounding mathematical logic and the theory of computation, in particular the distinction between functions and algorithms, and makes this concrete by introducing Church's simply-typed $\lambda$-calculus and its categorical incarnation following Lambek and Scott's \cite{lambekscott}. The statement of the Curry-Howard correspondence is given, connecting formulas and proofs in intuitionistic logic to types and terms in $\lambda$-calculus, and objects and morphisms in Cartesian closed categories. \emph{This material is necessary to explain the relevance of topoi to software engineering and computation more broadly.}
+
+\item \textbf{Lecture 3: William Troiani, ``Monads and programs''.} It is explained how the simply-typed lambda calculus is not very expressive, and the various methods of increasing expressivity and usability that have been explored in the literature, including Moggi's ideas on how to enable reasoning about programs using monads. A formal introduction to categories, functions and monads is provided, along with the proof of Moggi's theorem that there is a bijection between Kleisli triples and monads. \emph{This material is necessary to provide context for the answer, in Lecture 15, of Question 3 above.}
+
+\item \textbf{Lectures 4, 5: James Clift, ``The definition of a topos''.} The definition of limits and colimits are given with some examples. The rest of the seminar contains the definition of exponentials in a category and Cartesian closed categories, subobject classifiers and examples, and finally the definition of a topos as a Cartesian closed category which has all finite limits and a subobject classifier.
+
+\item \textbf{Lectures 6, 7: Patrick Elliott, ``Sheaves of sets''.} Contains the definition of presheaves on a topological spaces, the Yoneda lemma, sieves and their intepretation as subfunctors, sheaves from various points of view, Grothendieck topologies and the example of the Zariski site. \emph{This material is necessary to state the definition of a classifying topos.}
+
+\item \textbf{Lecture 8: William Troiani, ``Higher-order logic and topoi (Part 1)''.} The alternative definition of an \emph{elementary} topos is given, and the representation of predicates in a topos (a foreshadowing of the Mitchell-Benabou language) is developed in order to give the proof that a category is a topos if and only if it is an elementary topos. \emph{This material is necessary to make the connection between higher-order logics and topoi in Lecture 9.}
+
+\item \textbf{Lecture 9: Daniel Murfet, ``Higher-order logic and topoi (Part 2)''.} This talk makes the connection between higher-order logics and topoi by constructing an instance of the latter from an instance of the former, following Lambek and Scott. Gives a detailed definition of an intuitionistic type theory / higher-order logic and the associated topos of types and terms. \emph{In a proof assistant adapted to topoi, one would be primarily concerned with two kinds of examples: classifying topoi constructed from first-order theories, and topoi constructed as in this lecture from higher-order logics.}
+
+\item \textbf{Lectures 10, 11: Patrick Elliott, ``Sheaves form a topos''.} Proves in detail that the category of presheaves on a small category is a topos, discusses sheafification, and then defines the exponentials and subobject classifier in a category of sheaves on a site and proves that with these structures sheaves form a topos.
+
+\item \textbf{Lecture 12: Daniel Murfet, ``Classifying topoi (Part 1)''.} Gives the definition of the classifying topos of a first-order theory, introduces geometric morphisms and then proceeds to develop various points of view on additive and ``nonadditive'' tensor products as a way of understanding what the inverse image part of a geometric morphism is doing. The primary example is geometric realisation of a simplicial set.
+
+\item \textbf{Lecture 13: James Clift, ``Higher-order logic and topoi (Part 3)''.} Explains quantifiers as adjoints, an important part of understanding how to interpret higher-order logic in a topos, and thus in defining models of a theory. Defines the Mitchell-Benabou language.
+
+\item \textbf{Lecture 14: William Troiani, ``The classifying space of rings''.} Examines an important example of a first-order theory (the theory of rings) and the construction of its classifying topos.
+
+\item \textbf{Lecture 15: Daniel Murfet, ``Abstraction and adjunction''.} Returns to the original goal of using topoi and geometric morphisms to organise mathematical knowledge, and formalises this in terms of the language that has been developed over the course of the seminar. The running examples are two first-order theories (abelian groups, and torsion abelian groups) and a higher-order logic, and various functors between the three topoi associated to this data. This example is used to illustrate the distinction between a purely \emph{monadic} approach to formalising mathematics, and an approach based on the more general notion of adjunctions.
+\end{itemize}
+
+\subsection{Geometric theories}\label{section:geometric}
+
+A formula $\phi$ in a first-order theory language is \emph{geometric} if it can be obtained from atomic formulas by conjunction, disjunction and existential quantification; the name originates from the fact that geometric morphisms $f: \cat{E} \lto \cat{F}$ have the property that the left adjoint $f^*$ is compatible with the interpretation of the ``set comprehension'' $\{ x \l \phi \}$ as an object of $\cat{E}, \cat{F}$ \cite[Theorem X.5]{topos}. A theory $T$ is \emph{geometric} if all the axioms are of the form
+\[
+\forall x_1 \ldots \forall x_n ( \phi(x_1,\ldots,x_n) \Longrightarrow \psi(x_1,\ldots,x_n) )
+\]
+where $\phi, \psi$ are geometric. In the category theory literature, geometric formulas are sometimes called \emph{positive existential} formulas \cite[p.45]{makkai} and there is a well-understood connection between geometric theories, sketches and accessible categories.\footnote{Note that many authors refer to such theories as \emph{coherent} and use the term geometric for more general theories which allow infinite disjunctions. Since \cite{topos} was the main reference for our seminar, we prefer to stick to this terminology.} For the reader with a computer science background, we mention that geometric logic extends Horn clause logic, on which the programming language Prolog is based \cite{bezem2}.
+
+According to Johnstone ``It is remarkable how few of the first-order theories encountered in the practice of mathematics fail to be (at least classically equivalent to) coherent theories'' \cite[\S D.1.1]{johnstone}. All algebraic theories, such as group theory and ring theory, are geometric, as are all essentially algebraic theories, such as category theory, the theory of fields, local rings, lattice theory, projective geometry, separably closed local rings. If we allow infinite disjunctions then the infinitary theory of torsion abelian groups is geometric. However it is certainly not true that every first-order theory of mathematical interest is geometric: for example, an infinitary first-order theory which is \emph{not} geometric is given by the theory of metric spaces \cite[Example 1.1.7(l)]{johnstone}.
+
+Further, it is not clear that every natural software specification can be written down as a geometric theory. It is therefore an important fact that every first-order theory $T$ has a conservative geometric extension $T'$ \cite[Theorem 7.7]{negri}. This extension is finite and can be implemented on a computer, and the models of $T,T'$ are essentially the same (although the notion of \emph{morphism} is changed, so the categories are not equivalent).\footnote{A related construction, referred to as the \emph{Morleyization} of $T$ in \cite[D1.5.13]{johnstone}, produces a geometric theory $T'$ whose category of models in $\textbf{Sets}$ (or more generally in any Boolean coherent category) is the same as that of $T$. This involves adding infinitely many new symbols to the language of $T$, and is hardly reasonable from the point of view of automating reasoning in a proof assistant.} The feasibility of a proof assistant based around geometric theories hinges, therefore, on a close analysis of how cumbersome it is to deal with this geometric extension in practice.
+
+The good news is that effective theorem-proving for geometric theories can be automated \cite{bezem, bezem2, bezem3, fisher, holen, nivelle, stojanovic}. For recent practical applications of geometric logic based automatic theorem provers see \cite{marinkovic, durdevic} which use the ArgoCLP system described in \cite{stojanovic}. Moreover proofs in geometric logic are ``more readable'', according to \cite{stojanovic2}:
+\begin{quote}
+Our proof representation is developed also with readable proofs in mind.
+Readable proofs (e.g., textbook-like proofs), are very important in mathematical
+practice. For mathematicians, the main goal is often, not only a trusted, but also
+a clear and intuitive proof. We believe that coherent logic is very well suited for
+automated theorem proving with a simple production of readable proofs.
+\end{quote}
+It remains unclear to how appropriate geometric theories are in the context of software specifications, however Vickers has argued in favour of such an approach \cite{vickers1,vickers2}.
+
+\section{Conclusions and future directions}
+
+Our conclusions are as follows:
+
+\begin{enumerate}
+\item A next generation formal methods tool with the stated goals should be organised around a notion of \textbf{theories} and \textbf{theory morphisms}.\footnote{See Lectures 1, 12, 15 of the seminar.}
+
+\item One appropriate candidate are \textbf{geometric theories} and \textbf{geometric morphisms}. 
+
+\item This approach has the advantage of being based on an extensive development in the literature on categorical logic, an active ongoing effort to implement geometric logic in proof assistants \cite{bezem2} and compatibility with future developments in Univalent foundations.\footnote{Voevodsky has argued that it is not convenient to formalise areas of modern mathematics involving category theory, such as modern algebra and homotopy theory, in proof assistants based on higher-order logic. The semantics of his alternative approach, Univalent foundations, can be presented using higher topoi and geometric morphisms. It seems therefore that the outlook being proposed here is compatible with future integration with a Univalent approach to foundations.} The primary disadvantage of the approach is the necessity of \textbf{geometrisation} in order to accomodate arbitrary first-order theories \cite{negri}.
+
+\item A formal methods tool developed along these lines would be based on languages describing \textbf{adjunctions between geometric logics}. We suggest that the original vision of a higher-order monadic underlying language does not go far enough: every monad arises from an adjunction, but not every adjunction is monadic.\footnote{This point is made in detail at the end of Lecture 15 of the seminar.}
+\end{enumerate}
+
+In order to justify pursuing this approach, one must either find convincing reasons to be satisfied with the restriction to geometric theories, or develop the practical side of geometrisation to an extent that relying on it no longer seems to be a serious drawback. Modulo this caveat, our recommendations for future directions are:
+
+\begin{enumerate}
+\item Coordinate with and support the projects working to engineer proof assistants based on geometric logic \cite{bezem2, stojanovic}.
+\item Augment these projects with research into the formalisation of geometric morphisms in proof assistants along the lines of \cite{benton2}, and support practical work on the implementation of the products of this research.
+\item Investigate the practical implementation of geometrisation of first-order theories and the role of geometric logic in the specification of software following \cite{vickers1,vickers2}.
+\end{enumerate}
+
+It would also be interesting to understand more clearly how such efforts could interface with the work of various groups on Univalent foundations.
+
+\section{A sketch of proofchains}\label{section:proofchain}
+
+\setlength{\epigraphwidth}{0.7\textwidth}
+\epigraph{Fundamentally, decentralized communities require incentives for its community members to hold and validate the tamper-evident records, making them collectively immutable. With that as a secure foundation, they can then consider whether a token, representing an actual stake in the community's common assets and purpose, fits the circumstances. If it does make sense, then one must ensure that the differential equation for reward redistributes tokens along the gradients of value creation and long-term stability.}{W. Scott Stornetta}
+
+Distributed consensus is the cryptographic process that members of a cryptocurrency network use to synchronise their individual copies of the complete history of transactions. This globally coherent history is usually referred to as the \emph{blockchain} \cite{satoshi}. The fact of this global coherence, together with the verification of the lack of double-spending at the time of incorporation of transactions into the blockchain, has an emergent consequence: the existence of a unit of cryptocurrency (Bitcoin, say) with certain logical properties.
+
+In this sense the Bitcoin network is a \emph{logical community}: the energy expended in the proof-of-work protocol can be viewed as the cost of instantiating an emergent logical order with desirable properties (scarcity) on top of more fundamental computational degrees of freedom (the bits of the computers in the network) which do not possess those properties. This note explores the general case of this idea, where the logical order is described by an arbitrary first-order theory, and the analogue of the blockchain maintains a distributed globally coherent \emph{model} of that theory, which may be modified locally by any participant in the network according to a prescribed set of incremental transformations. We call this globally coherent history of transformations the \emph{proofchain}. We hope that proofchains can help to enable new forms of cooperation, by creating logical communities with economic incentives that are more productive than the prevailing ones. 
+\\
+
+The details of the proposal are given in the next section. To motivate the definitions, let us first imagine a decentralised community maintaining a shared repository of formally verified software components. To explain how novel kinds of markets could help incentivise the activity of such communities, we provide the following cartoon:
+
+\begin{example}\label{example:proof} Suppose a user wishes to commission software with specification $T$ consisting of minimal requirements $S$ plus security constraints $S'$, so that $T = S + S'$. This request is posted to the proofchain network together with cryptocurrency bounties funding the work, and the following activity ensues:
+\begin{itemize}
+\item Users survey the existing library $\{ (T_i, M_i) \}_{i \in I}$ of software maintained in a tamper-evident and distributed way by the proofchain. The library consists of specifications $T_i$ together with software $M_i$ fulfilling the specification. If necessary new components are commissioned with their own bounties. Once the work is complete and code $M$ satisfying $S$ has been synthesised, users receive the bounty associated to $S$.
+
+\item To determine whether $M$ satisfies the security constraints $S'$ a prediction market is opened, capitalised by the bounty, where users buy and sell shares in the payoff from a successful proof of the conjectures $S'$ about the code $M$. We refer to this as a \emph{conjecture market}. The price of these shares gives an objective measure of the knowledge of the community about whether $M$ satisfies $S'$ \cite{hanson3}.
+
+A user who possesses a proof $\pi$ of $S'$ can buy all open shares in the market, and then broadcast $\pi$ onto the network, at which point the network protocol automatically closes the market and distributes the payoffs. To produce a proof $\pi$ means, generally speaking, to first prove properties $\psi_1,\ldots,\psi_k$ of the components $N_1,\ldots,N_k$ used to assemble $M$. The market value of $\pi$ determined by the bounty implies a market value for $\psi_1,\ldots,\psi_k$, by arbitrage between conjecture markets, in a recursive process. Users react to the market incentive by proving the fine-grained conjectures, and the results are collected into a proof $\pi$ of $S'$ for $M$.
+\end{itemize}
+The integrity of this process is guaranteed by the distributed consensus mechanism.
+\end{example}
+
+\emph{Acknowledgements.} The work presented in this section is an extract from an ongoing collaboration with Calin Lazaroiu and Dmitry Doryn begun in December 2018.
+
+\subsection{Some details}\label{section:conjecture_markets}
+
+Throughout this section we fix a topos $\cat{E}$ where we take models. We assume that there is an effective computational means of describing models in $\cat{E}$ by binary strings. We call such strings \emph{codes} and write $c(M)$ for the code of a model $M$ in $\cat{E}$.
+
+\begin{definition} A \emph{logical order} is the data of
+\begin{itemize}
+\item A first-order geometric theory $T$,
+\item A finite set of \emph{conjectures}, which are formulas in the language of $T$,
+\item A set of \emph{allowed transactions} on models of $T$.
+\end{itemize}
+\end{definition}
+
+The allowed transactions are represented by a polynomial time boolean-valued computable function $A(p,c(M),c(M'),\tau)$ of a public key $p$, a pair $M,M'$ of models represented by their codes, and an algorithm $\tau$ which represents the change, that is, which computes $M'$ from $M$. The function $A$ evaluates to true if and only if the user with public key $p$ is allowed to transition the model from $M$ to $M'$ via the transaction $\tau$. We restrict to geometric theories so that we have a good theory of changes of logical order by geometric morphisms (for example, updates to the specification). %In the remainder of this section we give a preliminary sketch of the proofchain protocol, with minimal detail about the role of conjectures or the language in which the transactions $\tau$ are to be written.
+\\
+
+%\begin{example} In the case of $T_{Bitcoin}$ the function $A(p,c(M),c(M'),\tau)$ would evaluate to true if and only if the function $f': C \lto P$ giving the data of $M'$ is obtained from the function $f: C \lto P$ giving the data of $M$ by replacing a pair $(c,p_s)$ consisting of a single coin $c$ and a public key $p_s$ (the source) with a pair $(c,p_t)$ (the target), $p = p_s$ and $\tau$ is the algorithm which performs that rewrite of $f$ to $f'$.
+%\end{example}
+
+%\begin{example} Let $T$ be the theory of linear orders in the sense of \cite[\S VIII.8]{topos} so that the category of models $\operatorname{Mod}(T)$ in the topos $\textbf{Sets}$ is equivalent to the category of simplicial sets \cite[Theorem VIII.5]{topos}. 
+
+%Let the set of allowed transactions be the addition or deletion of a single vertex in the model $M$, that is, in the simplicial set encoded by the model, together with the necessary modifications to the face and degeneracy maps so that the constraints of being a simplicial set remain satisfied. Moreover by using the input $p$ the function $A$ could effectively allow public keys to \emph{own} subsets of vertices, in the sense that only a given user is allowed to initiate transactions that remove those vertices.
+%\end{example}
+
+The proofchain, which we will specify in a moment, solves the problem of distributed and decentralised consensus about a single model $M$ of the theory $T$, whose dynamics is governed by the set of allowed transactions described by $A$. That is, the proofchain instantiates the given emergent logical order. The details are the obvious modifications of \cite{satoshi}. The proofchain is, roughly speaking, a crytographically secured sequence
+\begin{equation}\label{eq:block}
+c(M_1), (p_1, c(M_1), c(M_2), \tau_1), c(M_2), (p_2, c(M_2),c(M_3),\tau_2), \ldots, c(M_n)
+\end{equation}
+where $M_i$ are models for $i \ge 1$, the $p_i$ are public keys, and for all $i \ge 1$
+\[
+A(p_i, c(M_i), c(M_{i+1}), \tau_i) = \textrm{true}\,.
+\]
+In order that the $i$th transaction is authenticated as being initiated by the user with public key $p_i$, and in order that this user cannot deny having sent the transaction, we require as in the Bitcoin blockchain that the user digitally signs the pair
+\[
+c(M_i), (p_i, c(M_i), c(M_{i+1}), \tau_i)
+\]
+with their private key. A \emph{block} consists of a sequence \eqref{eq:block} satisfying the given constraints, together with the digital signatures and the hash of another block (the parent block) and a nonce. The proof-of-work consists of incrementing the nonce until a value is found that gives the block's hash some required number of zero bits.
+
+The steps to run the network are as follows \cite[\S 5]{satoshi}:
+\begin{itemize}
+\item[(1)] New transactions are broadcast to all nodes
+\item[(2)] Each node collects new transactions into a block
+\item[(3)] Each node works on finding a difficult proof-of-work for its block
+\item[(4)] When a node finds a proof-of-work, it broadcasts the block to all nodes
+\item[(5)] Nodes accept the block only if all transactions in it are valid
+\item[(6)] Nodes express their acceptance of the block by working on creating the next block in the chain, using the hash of the accepted block as the previous hash
+\end{itemize}
+The only difference to the Bitcoin blockchain protocol lies in step (5) where we use a more general notion of validity, based on the function $A$. Nodes always consider the longest chain to be the correct one and will keep working on extending it, and in this way the energy expended in proof-of-work creates a distributed consensus on a model $M$. The other details (such as the block verification protocol) follow Bitcoin.
+\vspace{0.2cm}
+
+\textbf{Summary:} the proofchain secures the fact that the data $M$ is (in the same approximate sense as in the usual blockchain) guaranteed to both be a model of the given logical theory, and also to have evolved from its initial state according to the allowed set of possible transactions as described by the logical order.
+\\
+
+%\begin{remark}\label{remark:computational_cost} The computational cost of verifying the constraint on transactions in the Bitcoin blockchain (of no double spending) is low and does not scale with the number of coins or available public keys. In principle, however, our proofchain has an arbitrarily high computational cost per transaction: the cost of evaluating the function $A$ must be paid both by nodes forming blocks, and also in the block verification stage by other nodes before they accept and retransmit blocks. This cost involves verifying the axioms of the theory $T$ for the new state of the model, and these axioms may involve quantification over a large set (say of vertices in a simplicial set, in the case of the theory of linear orders).
+
+%On the one hand this cost can be compensated by either mining (as in Bitcoin) or by transaction fees, and on the other hand one should design the set of allowed transactions so that $A$ has a time complexity which is as low as possible. Ideally, it should be possible to infer cheaply from the hypothesis that $M$ is a model and that $\tau$ belongs to an allowed set of transactions that $M'$ is also a model \emph{without directly checking} that $M'$ is a model (i.e. independent of this knowledge of how it was constructed). For more see Section \ref{section:transactions}.
+%\end{remark}
+
+%It may be that the technical advantages of the framework outlined above is sufficient that it is of value to develop it \emph{even if} one restricts to geometric theories.
+
+A logical order consists of a first-order language together some formulas called \emph{axioms} and some formulas called \emph{conjectures}. The proofchain protocol verifies that the data of the model satisfies the axioms at all times. However, the conjectures are ``soft'' constraints in the sense that they are not required to hold. Instead, the state of belief about each conjecture is encoded in a \emph{prediction market} which is maintained as part of the proofchain protocol. Prediction markets are a simple and elegant distributed method of incentivising the sharing of information \cite{hanson3}. Given a proposition $P$, the market trades in shares of a fixed payoff in the event that $P$ is proven to be true. The more certain the market is that $P$ is true, the higher the price of each share will be to acquire.\footnote{Parties wishing to incentivise the resolution of a conjecture can donate funds to increase the payoff.}
+
+Ideally, a user of the network can query this prediction market to obtain an estimation of the likelihood of the truth of conjecture which accurately represents the state of the knowledge of the participants in the network. The key to the prediction market reflecting the true state of knowledge of the participants is that each user is incentivised economically to contribute whatever knowledge they possess about the conjecture, and indeed, that users are incentivised to invest whatever computational or cognitive resources are required to \emph{determine} the truth of the conjecture.
+
+It is desirable that there is no hard boundary between axioms and conjectures: instead, there should be a mechanism in the protocol for conjectures to be converted into axioms, when a proof (or disproof) of the conjecture is found by the market mechanism. In this way an initially modest set of axioms can evolve into a stronger theory over time.\footnote{This potentially one way to avoid the problem of a high barrier of entry to the authoring of formally verified software.}
+\vspace{0.2cm}
+
+The primary technical problem with realising conjecture markets is the problem of liquidity. Some of the problems of liquidity in such prediction markets have been addressed in the literature on combinatorial prediction markets \cite{hanson,chen,dudik,pennock, dudik} and theoretical machine learning literature \cite{garrabrant}. To return finally to the context of Example \ref{example:proof}, individual users who observe an outstanding conjecture $\pi$ and \emph{guess} that the key to resolving such a conjecture are propositions $\psi_1,\ldots,\psi_k$ about sub-components can \emph{front their own funds} to establish conjecture markets about these components. This kind of mathematical activity is in effect a form of market making, and helps to increase consistency across a family of interdependent conjecture markets.
+
+\bibliographystyle{amsalpha}
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{BHLS03}
+
+\bibitem{arrow}
+K.~J.~Arrow, \textsl{The Limits of Organization}, New York, 1974.
+
+\bibitem{benton}
+N.~Benton, \textsl{Categorical monads and computer programming}, LMS Impact150 Stories, 1, 9-13, 2015. 
+
+\bibitem{benton2}
+N.~Benton and P.~Wadler, \textsl{Linear logic, monads and the lambda calculus} In Logic in Computer Science, 1996. LICS'96. Proceedings., Eleventh Annual IEEE Symposium on (pp. 420-431). IEEE, 1996. 
+
+\bibitem{bezem}
+M.~Bezem, T.~Coquand, \textsl{Automating coherent logic}, Proceedings of LPAR 2005, LNCS \textbf{3835}, pp. 246--260, Springer, 2005.
+
+\bibitem{bezem2}
+M.~Bezem, T.~Coquand and A.~Waaler, \textsl{Research proposal: automating coherent logic}, \href{http://www.ii.uib.no/acl/description.pdf}{http://www.ii.uib.no/acl/description.pdf}, 2006.
+
+\bibitem{bezem3}
+M.~Bezem, T.~Hendricks, \textsl{On the mechanization of the proof of Hessenberg’s theorem in coherent logic}, Journal of Automated Reasoning \textbf{40}, pp 61--85, 2008.
+
+\bibitem{chen}
+Y.~Chen and D.~M.~Pennock, \textsl{A utility framework for bounded-loss market makers}, In Proc. of UAI, pages 349–358, 2007.
+
+\bibitem{claessen}
+K.~Claessen, R.~H\"ahnle, and J.Mortensson, \textsl{Verification of hardware systems with first-order logic}, Proceedings of the CADE-18 Workshop-Problem and Problem Sets for ATP. No. 02/10. 2002.
+
+\bibitem{dudik}
+M.~Dudik, S.~Lahaie, M.~D.~Pennock, \textsl{A tractable combinatorial market maker using constraint generation}, In Proceedings of the 13th ACM Conference on Electronic Commerce (pp. 459-476). ACM, 2012.
+
+\bibitem{nivelle}
+H.~de Nivelle, J.~Meng, \textsl{Geometric Resolution: a proof procedure based on finite model search}, Proceedings of IJCAR 2006, LNAI 4130, pp 303-–317, Springer, 2006.
+
+\bibitem{durdevic}
+S.Durdevi\'c, J.Narboux and P.~Jani\v{c}i\'{c}, \textsl{Automated generation of machine verifiable and readable proofs: A case study of Tarski’s geometry}, Annals of Mathematics and Artificial Intelligence, 74(3-4), 249-269, 2015.
+
+\bibitem{negri}
+R.~Dyckhoff and S.~Negri, \textsl{Geometrisation of first-order logic}, Bulletin of Symbolic Logic 21.2 (2015): 123-163.
+
+\bibitem{fisher}
+J.~Fisher and M.~Bezem, \textsl{Skolem machines}, Fundamenta Informaticae \textbf{91}, pp 79–-103, 2009.
+
+\bibitem{fukuyama}
+F.~Fukuyama, \textsl{Trust: The social virtues and the creation of prosperity}, Free Press Paperbacks, 1995. 
+
+\bibitem{garrabrant}
+S.~Garrabrant, T.~Benson-Tilsen, A.~Critch, N.~Soares and J.~Taylor, \textsl{Logical induction}, arXiv preprint arXiv:1609.03543, 2016. 
+
+\bibitem{hanson3}
+R.~Hanson, \textsl{Idea Futures}, \href{http://mason.gmu.edu/~rhanson/ideafutures.html}{http://mason.gmu.edu/{\textasciitilde}rhanson/ideafutures.html}, first version 1996.
+
+\bibitem{hanson}
+R.~Hanson, \textsl{Logarithmic markets coring rules for modular combinatorial information aggregation}, The Journal of Prediction Markets, 1(1), 3-15, 2012.
+
+\bibitem{hanson1}
+R.~Hanson, \textsl{Bets As Signals of Article Quality}, October 26, 2018, \href{http://www.overcomingbias.com/2018/10/bets-as-signals-of-article-quality.html}{http://www.overcomingbias.com/2018/10/bets-as-signals-of-article-quality.html}.
+
+\bibitem{hanson2}
+R.~Hanson, \textsl{How to fund prestige science}, November 10, 2018, \href{http://www.overcomingbias.com/2018/11/how-to-fund-prestige-science.html\#more-31927}{http://www.overcomingbias.com/2018/11/how-to-fund-prestige-science.html\#more-31927}.
+
+\bibitem{symplectic}
+K.~Hartnett, \textsl{A Fight to Fix Geometry’s Foundations}, Quanta Magazine, retrieved from \href{https://www.quantamagazine.org/the-fight-to-fix-symplectic-geometry-20170209/}{https://www.quantamagazine.org/the-fight-to-fix-symplectic-geometry-20170209/}, 2017.
+
+\bibitem{holen}
+B.~Holen, D.~Hovland and M.~Giese, \textsl{Efficient rule-matching for hyper-tableaux}, 9th International Workshop on Implementation of Logics Proceedings, EasyChair Proceedings in Computing Series 22, Easy-Chair, pp 4–17, 2013.
+
+\bibitem{manifesto}
+C.~A.~R.~Hoarse, J.~Misra, G.~T.~Leavens, N.~Shankar, \textsl{The verified software initiative: A manifesto}, ACM Comput. Surv., 41(4), 22-1, 2009.
+
+\bibitem{johnstone}
+P.~T.~Johnstone, \textsl{Sketches of an elephant: A topos theory compendium} Vol. 1. Oxford University Press, 2002.
+
+\bibitem{lambekscott}
+J.~Lambek and P.~J.~Scott, \textsl{Introduction to higher-order categorical logic}, Vol. 7. Cambridge University Press, 1988.
+
+\bibitem{abc}
+E.~Klarreich, \textsl{Titans of Mathematics Clash Over Epic Proof of ABC Conjecture}, Quanta Magazine, retrieved from \href{https://www.quantamagazine.org/titans-of-mathematics-clash-over-epic-proof-of-abc-conjecture-20180920/}{https://www.quantamagazine.org/titans-of-mathematics-clash-over-epic-proof-of-abc-conjecture-20180920/}, 2018.
+
+\bibitem{sel4}
+G.~Klein et al. \textsl{seL4: Formal verification of an OS kernel}, Proceedings of the ACM SIGOPS 22nd symposium on Operating systems principles. ACM, 2009.
+
+\bibitem{topos}
+S.~MacLane and I.~Moerdijk, \textsl{Sheaves in geometry and logic: A first introduction to topos theory}, Springer-Verlag 1992.
+
+\bibitem{makkai}
+M.~Makkai and R.~Par\'{e}, \textsl{Accessible categories: the foundations of categorical model theory} (Vol. 104). American Mathematical Soc., 1989.
+
+\bibitem{marinkovic}
+V.~Marinkovi\'{c}, \textsl{Proof simplification in the framework of coherent logic}, Computing and Informatics, 34(2), 337-366, 2015.
+
+\bibitem{moggi}
+E.~Moggi, \textsl{Notions of computation and monads. Information and computation}, 93(1), 55-92, 1991.
+
+\bibitem{risingseminar}
+D.~Murfet, \textsl{The Rising Sea seminar on topos theory and higher-order logic}, \href{http://therisingsea.org/post/seminar-ch/}{http://therisingsea.org/post/seminar-ch/}.
+
+\bibitem{bp}
+T. Murray and P~.C~.van Oorschot, \textsl{BP: Formal Proofs, the Fine Print and Side Effects}, IEEE SecDev 2018.
+
+\bibitem{satoshi}
+S.~Nakamoto, \textsl{Bitcoin: A peer-to-peer electronic cash system}, \href{https://bitcoin.org/bitcoin.pdf}{https://bitcoin.org/bitcoin.pdf}, 2008.
+
+\bibitem{pennock}
+D.~M.~Pennock and L.~Xia, \textsl{Price updating in combinatorial prediction markets with Bayesian networks}, arXiv preprint arXiv:1202.3756.
+
+\bibitem{potter}
+B.~Potter, D.~Till and J.~Sinclair, \textsl{An introduction to formal specification and Z
+}, Prentice Hall PTR, 1996.
+
+\bibitem{stojanovic}
+S.~Stojanovi\'{c}, V.~Pavlovi\'{c} and P.~Jani\v{c}i\'{c}, \textsl{A coherent logic based geometry theorem prover capable of producing formal and readable proofs}, Proceedings of Automated Deduction in Geometry 2010, LNAI 6877, pp 201–220, Springer, 2011.
+
+\bibitem{stojanovic2}
+S.~Stojanovi\'{c}, J.~Narboux, M.~Bezem and P.~Jani\v{c}i\'{c}, \textsl{A vernacular for coherent logic}, In Intelligent Computer Mathematics (pp. 388-403). Springer, Cham., 2014.
+
+\bibitem{vickers1}
+S.~Vickers, \textsl{Geometric logic in computer science}, Theory and Formal Methods 1993. Springer, London, 1993. pp.37--54.
+
+\bibitem{vickers2}
+S.~Vickers, \textsl{Geometric logic as a Specification Language}, Theory and Formal Methods, 1994.
+
+\bibitem{voevodsky}
+V.~Voevodsky, \textsl{Will Computers Redefine the Roots of Math?}, Quanta Magazine, retrieved from \href{https://www.quantamagazine.org/univalent-foundations-redefines-mathematics-20150519/}{https://www.quantamagazine.org/univalent-foundations-redefines-mathematics-20150519/}, 2015.
+
+\end{thebibliography}
+
+\end{document}
